@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">SeahawkTours</string>
+    <string name="title">Seahawk Tours</string>
+    <string name="instructions">Pick a UNCW building to learn more about it</string>
+    <string-array name="buildings">
+        <item>Computer Information Systems (CIS)</item>
+        <item>Randall Library (RL)</item>
+        <item>DeLoach Hall (DL)</item>
+    </string-array>
+    <string name="cis">Computer Information Systems (CIS)</string>
+    <string name="rl">Randall Library (RL)</string>
+    <string name="dl">DeLoach Hall (DL)</string>
+    <string name="buildingDetails">Get Details</string>
+    <string name="building1_desc">The Computer Information Systems (CIS) building was constructed to house the Information Systems and Operations Management Department from the Cameron School of Business and the Department of Computer Science from the College of Arts and Sciences. The CIS Building, a new 51,731 square-foot state-of-the-art facility on the UNCW campus, opened January 10, 2007 for the new school semester. Work on the facility began on July 29, 2004 with the groundbreaking, and competed in December of 2006. The building cost approximately $12.8 million and was funded by the North Carolina State Bond campaign of 2000.
+
+Housed within the new building is the Financial Markets Room and, thanks to a donation from Edward Jones and over 50 if its financial advisers, the Edward Jones Financial Lab. Both rooms contain a stock board and ticker, however the Edward Jones Financial Lab also includes the Bloomberg Trading Terminal. With this terminal, students and faculty have the ability to trade stocks directly with the New York Stock Exchange, NASDAQ and more.
+
+The Department of Computer Science and the Department of Information Systems and Operations Management are housed at CIS together and are jointly offering a Master of Science in Computer Science Information Systems (MSCSIS) degree, an intensive graduate program aimed at preparing the student to assume leadership roles in the development and implementation of computer and information systems.</string>
+    <string name="building2_desc">Funding to construct a library at the new campus location began in 1965 by the Friends of Wilmington College. The first on-site library was housed in Alderman Hall administration building following the move from Isaac Bear Building. In 1968, the original front of Randall Library faced College Road but since its 1980s expansion the entrance now faces Chancellors Walk. This facility contains UNCW Archives, Special Collections (Helen Hagan Room), the Gene Huguelet Conference Room, and the Honors Program offices, along with various faculty offices.</string>
+    <string name="building3_desc">Originally called the Physics-Chemistry Building, this structure housed classrooms for those departments. Groundbreaking took place in July of 1967, occupation began in 1968, with the official renaming ceremony to DeLoach Hall in October of 1985. Currently the building holds offices and classrooms for the Department of Physics, Department of Physical Oceanography and the Department of Earth Sciences. The Department of Chemistry was housed here until Dobo Hall opened. DeLoach Hall contains a large teaching auditorium and several laboratories.</string>
+    <string name="cisCaption">Computer Information Systems Building Entrance</string>
+    <string name="rlCaption">Entrance to Randall Library from Chancellors Walk</string>
+    <string name="dlCaption">The entrance to DeLoach Hall and the interior garden</string>
+
 </resources>

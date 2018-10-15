@@ -21,5 +21,6 @@ The Department of Computer Science and the Department of Information Systems and
     <string name="cisCaption">Computer Information Systems Building Entrance</string>
     <string name="rlCaption">Entrance to Randall Library from Chancellors Walk</string>
     <string name="dlCaption">The entrance to DeLoach Hall and the interior garden</string>
+    <string name="back">Back</string>
 
 </resources>

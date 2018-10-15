@@ -9,22 +9,20 @@
 
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
-        android:text="@string/title"
-        android:textSize="50sp"
         android:layout_gravity="center_horizontal"
+        android:text="@string/title"
         android:textColor="#17D4A0"
-        />
+        android:textSize="50sp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/front_page"
         android:layout_gravity="center_horizontal"
         android:gravity="top"
-    />
+        android:src="@drawable/front_page" />
 
 
     <TextView
@@ -32,26 +30,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/instructions"
-        android:textSize="18sp"
         android:textColor="#17D4A0"
-        />
+        android:textSize="18sp" />
 
     <Spinner
+        android:id="@+id/buildings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/buildings"
         android:layout_marginTop="37dp"
-        android:entries="@array/buildings"/>
+        android:entries="@array/buildings" />
 
-        <Button
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/buildingDetails"
-        android:textSize="15sp"
         android:layout_gravity="center_horizontal"
         android:onClick="onClickBuildingDetails"
-        />
+        android:text="@string/buildingDetails"
+        android:textSize="15sp" />
 
 
 </LinearLayout>

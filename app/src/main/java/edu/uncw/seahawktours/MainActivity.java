@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Spinner;
-import android.widget.TextView;
-
-import java.util.List;
 
 public class MainActivity extends Activity {
 
@@ -20,15 +17,25 @@ public class MainActivity extends Activity {
     }
 
 
-    public void onClickBuildingDetails(View view){
+    public void onClickBuildingDetails(View view) {
         //Go to detail page
         //Get a reference to the spinner
         Spinner buildings = findViewById(R.id.buildings);
         //Get the selected item in the spinner
-        building=String.valueOf(buildings.getSelectedItem());
+        building = String.valueOf(buildings.getSelectedItem());
 
-        Intent intent = new Intent(this,DetailActivity.class);
-        intent.putExtra("MainActivity.building",building);
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("MainActivity.building", building);
         startActivity(intent);
-        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 }

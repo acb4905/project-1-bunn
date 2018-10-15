@@ -1,10 +1,9 @@
 package edu.uncw.seahawktours;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Spinner;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -14,15 +13,19 @@ public class DetailActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         String building = extras.getString("MainActivity.building");
         //How do you check which building was chosen!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        if (building.equals("@string/cis")){
+        if (building.equals("Computer Information Systems (CIS)")) {
             setContentView(R.layout.activity_detail);
         }
-        if (building.equals("Randall Library (RL)")){
+        if (building.equals("Randall Library (RL)")) {
             setContentView(R.layout.activity_detail2);
-        }
-        else{
+        } else {
             setContentView(R.layout.activity_detail3);
         }
 
+    }
+
+    public void onClickBack(View view) {
+        Intent intent2 = new Intent(this, MainActivity.class);
+        startActivity(intent2);
     }
 }

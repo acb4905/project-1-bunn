@@ -9,47 +9,51 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/cis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cis"
-            android:text="@string/cis"
-            android:textSize="30sp"
             android:layout_gravity="center_horizontal"
+            android:text="@string/cis"
             android:textColor="#17D4A0"
-            />
+            android:textSize="30sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cis"
             android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
             android:gravity="top"
-            />
+            android:src="@drawable/cis" />
 
         <TextView
+            android:id="@+id/cisCaption"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/cisCaption"
-            android:text="@string/cisCaption"
-            android:textSize="12sp"
             android:layout_gravity="center_horizontal"
-            />
+            android:gravity="center"
+            android:text="@string/cisCaption"
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/cisDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cisDesc"
-            android:text="@string/building1_desc"
-            android:textSize="20sp"
             android:layout_gravity="center_horizontal"
-            />
+            android:text="@string/building1_desc"
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onClickBack"
+            android:text="@string/back"
+            android:textSize="15sp" />
 
     </LinearLayout>
-
 
 
 </ScrollView>

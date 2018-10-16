@@ -57,7 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:onClick="onClickBuildingDetails"
-        android:text="@string/buildingDetails" />
+        android:text="@string/buildingDetails"
+        android:layout_marginTop="30dp"
+        android:background="#FFF579"/>
 
 
 </LinearLayout>

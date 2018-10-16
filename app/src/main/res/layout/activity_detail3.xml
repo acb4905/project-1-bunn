@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="40dp"
+            android:layout_marginBottom="40dp"
             android:text="@string/building3_desc"
             android:textSize="20sp" />
 
@@ -56,7 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:onClick="onClickBack"
-            android:text="@string/back" />
+            android:text="@string/back"
+            android:layout_marginBottom="40dp"
+            android:background="#2c9175"/>
 
     </LinearLayout>
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SeahawkTours</string>
+    <string name="app_name">Seahawk Tours</string>
     <string name="title">Seahawk Tours</string>
     <string name="instructions">Pick a UNCW building to learn more about it</string>
     <string-array name="buildings">

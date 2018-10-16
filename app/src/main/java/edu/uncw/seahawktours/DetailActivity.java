@@ -10,16 +10,17 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = getIntent().getExtras();
-        String building = extras.getString("MainActivity.building");
+        Intent intent = getIntent();
+        String building = intent.getStringExtra("MainActivity.building");
         //How do you check which building was chosen!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         if (building.equals("Computer Information Systems (CIS)")) {
             setContentView(R.layout.activity_detail);
-        }
-        if (building.equals("Randall Library (RL)")) {
-            setContentView(R.layout.activity_detail2);
         } else {
-            setContentView(R.layout.activity_detail3);
+            if (building.equals("Randall Library (RL)")) {
+                setContentView(R.layout.activity_detail2);
+            } else {
+                setContentView(R.layout.activity_detail3);
+            }
         }
 
     }

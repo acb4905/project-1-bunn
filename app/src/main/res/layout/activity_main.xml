@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity"
     android:background="@drawable/background"
-    android:paddingStart="8dp"
+    android:orientation="vertical"
     android:paddingEnd="8dp"
-    >
+    android:paddingStart="8dp"
+    tools:context=".MainActivity">
 
 
     <TextView
@@ -20,48 +18,46 @@
         android:text="@string/title"
         android:textColor="#101F61"
         android:textSize="50sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
-<!--    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="top"
-        android:src="@drawable/front_page" />-->
+    <!--    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="top"
+            android:src="@drawable/front_page" />-->
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:paddingBottom="220dp"
         android:text="@string/instructions"
         android:textColor="#101F61"
         android:textSize="19sp"
-        android:textStyle="bold"
-        android:paddingBottom="220dp"
-        />
+        android:textStyle="bold" />
 
     <Spinner
         android:id="@+id/buildings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:popupBackground="#FFF579"
-        android:textSize="28sp"
-        android:background="#FFF579"
         android:layout_marginTop="37dp"
+        android:background="#FFF579"
         android:entries="@array/buildings"
-        android:paddingBottom="20dp"/>
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:popupBackground="#FFF579"
+        android:textSize="28sp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:onClick="onClickBuildingDetails"
-        android:text="@string/buildingDetails"
-        android:textSize="15sp" />
+        android:text="@string/buildingDetails" />
 
 
 </LinearLayout>

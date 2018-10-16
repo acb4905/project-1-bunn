@@ -9,15 +9,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="15dp"
         android:paddingEnd="15dp"
-        >
+        android:paddingStart="15dp">
 
         <TextView
             android:id="@+id/cis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:paddingBottom="30dp"
             android:text="@string/rl"
             android:textColor="#2c9175"
             android:textSize="40sp" />
@@ -28,7 +28,8 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:gravity="top"
-            android:src="@drawable/randall" />
+            android:src="@drawable/randall"
+            android:contentDescription="@string/rlCaption"/>
 
         <TextView
             android:id="@+id/rlCaption"
@@ -36,15 +37,16 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
+            android:paddingBottom="30dp"
             android:text="@string/rlCaption"
-            android:textSize="18sp"
-            android:paddingBottom="60dp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/rlDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:paddingBottom="40dp"
             android:text="@string/building2_desc"
             android:textSize="20sp" />
 
@@ -53,8 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:onClick="onClickBack"
-            android:text="@string/back"
-            android:textSize="15sp" />
+            android:text="@string/back" />
 
     </LinearLayout>
 

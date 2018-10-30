@@ -1,5 +1,6 @@
 package edu.uncw.seahawktours;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        int buildingId=(Integer)getIntent().getExtras().get(EXTRA_BUILDINGID);
-        Building building = Building.buildings[buildingId];
+        int buildingId=(Integer)getIntent().getIntExtra("buildingNum",0);
+        Building building0=new Building(Context.getResources().getString(R.string.cis));
+        building.loadBuildings()
 
         TextView title=findViewById(R.id.detailTitle);
         title.setText(building.getName());

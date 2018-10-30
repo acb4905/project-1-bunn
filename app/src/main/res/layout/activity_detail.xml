@@ -3,81 +3,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DetailActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:paddingEnd="15dp"
         android:paddingStart="15dp">
 
         <TextView
-            android:id="@+id/cis"
+            android:id="@+id/detailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="30dp"
-            android:text="@string/cis"
-            android:textColor="#2c9175"
-            android:textSize="30sp" />
+            android:text=" "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="30sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <ImageView
+            android:id="@+id/buildingImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/cisCaption"
             android:gravity="top"
-            android:src="@drawable/cis"
-            android:contentDescription="@string/cisCaption"/>
+            android:src="@drawable/randall"
+            app:layout_constraintTop_toBottomOf="@id/detailTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <TextView
-            android:id="@+id/cisCaption"
+            android:id="@+id/caption"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:paddingBottom="30dp"
-            android:text="@string/cisCaption"
-            android:textSize="18sp" />
+            android:text=" "
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/buildingImage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <TextView
-            android:id="@+id/cisDesc1"
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingBottom="20dp"
-            android:text="@string/building1_desc1"
-            android:textSize="20sp" />
+            android:text=" "
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/caption"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
 
         <TextView
-            android:id="@+id/cisDesc2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="20dp"
-            android:text="@string/building1_desc2"
-            android:textSize="20sp" />
+            android:id="@+id/urlInfo"
+            android:layout_marginTop="40dp"
+            android:textSize="20sp"
+            android:text="@string/linkText"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <TextView
-            android:id="@+id/cisDesc3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="40dp"
-            android:text="@string/building1_desc3"
-            android:textSize="20sp" />
+            android:id="@+id/url"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/urlInfo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:background="@color/colorPrimaryDark"
             android:onClick="onClickBack"
             android:text="@string/back"
-            android:layout_marginBottom="40dp"
-            android:background="#2c9175"/>
+            app:layout_constraintTop_toBottomOf="@id/url"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
 </ScrollView>

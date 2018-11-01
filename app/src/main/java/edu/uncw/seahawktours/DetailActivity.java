@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,56 +54,33 @@ public class DetailActivity extends AppCompatActivity{
         description.setText(building.getDescription());
 
         TextView url=findViewById(R.id.url);
-        url.setText(building.getUrl());
         url.setText(Html.fromHtml(building.getUrl()));
         url.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-/*        TextView title=findViewById(R.id.detailTitle);
-        ImageView buildingImage=findViewById(R.id.buildingImage);
-        TextView caption=findViewById(R.id.caption);
-        TextView description1=findViewById(R.id.description1);
-        TextView description2=findViewById(R.id.description2);
-        TextView description3=findViewById(R.id.description3);
-        String cisUrl = getResources().getString(R.string.cisURL);
-        String rlUrl=getResources().getString(R.string.rlURL);
-        String dlUrl=getResources().getString(R.string.dlURL);
-        TextView url=findViewById(R.id.url);
-        if (building.equals("Computer Information Systems (CIS)")) {
-            title.setText(getString(R.string.cis));
-            buildingImage.setImageResource(R.drawable.cis);
-            caption.setText(getString(R.string.cisCaption));
-            description1.setText(getString(R.string.building1_desc1));
-            description2.setText(getString(R.string.building1_desc2));
-            description3.setText(getString(R.string.building1_desc3));
-            url.setText(cisUrl);
-            url.setMovementMethod(LinkMovementMethod.getInstance());
-        } else {
-            if (building.equals("Randall Library (RL)")) {
-                title.setText(getString(R.string.rl));
-                buildingImage.setImageResource(R.drawable.randall);
-                caption.setText(getString(R.string.rlCaption));
-                description1.setText(getString(R.string.building2_desc));
-                description2.setText("");
-                description3.setText("");
-                url.setText(rlUrl);
-                url.setMovementMethod(LinkMovementMethod.getInstance());
-            } else {
-                title.setText(getString(R.string.dl));
-                buildingImage.setImageResource(R.drawable.deloach_collage);
-                caption.setText(getString(R.string.dlCaption));
-                description1.setText(getString(R.string.building3_desc));
-                description2.setText("");
-                description3.setText("");
-                url.setText(dlUrl);
-                url.setMovementMethod(LinkMovementMethod.getInstance());
-            }
-        }*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
 
-
-
-    public void onClickBack(View view) {
-        Intent intent2 = new Intent(this, MainActivity.class);
-        startActivity(intent2);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            //action to take when the action create order button is tapped
+            case R.id.menu:
+                Intent intent = new Intent (this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.up:
+                Intent intentUp = new Intent (DetailActivity.this, MainActivity.class);
+                startActivity(intentUp);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

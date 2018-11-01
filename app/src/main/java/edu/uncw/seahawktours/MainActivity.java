@@ -13,24 +13,22 @@ import android.widget.Spinner;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar =findViewById(R.id.toolbar);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> listView,
                                     View itemView,
                                     int position,
                                     long id) {
-                if (position == 0){
                     Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                     intent.putExtra("buildingNum",position);
                     startActivity(intent);
-                }
-
             }
         };
         //Add the listener to the list view
@@ -47,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public boolean onMenuItemClicked(Menu menu){
+/*    public boolean onMenuItemClicked(Menu menu){
 
-    }
+    }*/
 
     public void onClickBuildingDetails(View view) {
         //Go to detail page

@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainBuildingListFragment.Listener {
 
 
 
@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+/*        AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> listView,
                                     View itemView,
                                     int position,
@@ -36,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
         };
         //Add the listener to the list view
         ListView listView= (ListView)findViewById(R.id.building_options);
-        listView.setOnItemClickListener(itemClickListener);
+        listView.setOnItemClickListener(itemClickListener);*/
 
+    }
+
+    @Override
+    public void itemClicked(long id){
+        Intent intent = new Intent (this, DetailActivity.class);
+        intent.putExtra(DetailActivity.EXTRA_BUILDINGID,(int)id);
+        startActivity(intent);
     }
 
     @Override
@@ -63,25 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-/*    public boolean onMenuItemClicked(Menu menu){
-
-    }*/
-
-    public void onClickBuildingDetails(View view) {
-        //Go to detail page
-
-
-/*        //Get a reference to the spinner
-        Spinner buildings = findViewById(R.id.buildings);
-        //Get the selected item in the spinner
-        building = String.valueOf(buildings.getSelectedItem());
-
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("MainActivity.building", building);
-        startActivity(intent);*/
-    }
 
     @Override
     protected void onStop() {

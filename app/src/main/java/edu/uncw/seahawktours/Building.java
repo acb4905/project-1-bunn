@@ -1,7 +1,6 @@
 package edu.uncw.seahawktours;
 
 import android.content.Context;
-
 import java.util.ArrayList;
 
 public class Building {
@@ -61,6 +60,7 @@ public class Building {
         this.description=description;
         this.url=url;
     }
+
 
     public String getName(){return name;}
 

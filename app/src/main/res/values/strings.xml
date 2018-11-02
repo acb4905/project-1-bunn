@@ -35,6 +35,11 @@
     <string name="waURL">https://library.uncw.edu/web/collections/archives/bnl/39.html</string>
 
     <string name="about">Created by Audrey Bunn. UNCW building information and images courtesy of the UNCW University Archives. </string>
-    <string name="uncwArchiveURL">https://library.uncw.edu/archives_special/archives</string>
+    <string name="uncwArchiveURL">https://library.uncw.edu/web/collections/archives/landmarks.html</string>
+
+    <string name="aboutMenu">About</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

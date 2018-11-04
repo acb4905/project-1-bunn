@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DetailActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/detailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:text=" "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="35sp"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <ImageView
+            android:id="@+id/buildingImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/cisCaption"
+            android:gravity="top"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:src="@drawable/randall"
+            app:layout_constraintTop_toBottomOf="@id/detailTitle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
+
+        <TextView
+            android:id="@+id/caption"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:paddingBottom="30dp"
+            android:text=" "
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/buildingImage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text=" "
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@id/caption"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/urlInfo"
+            android:layout_marginTop="40dp"
+            android:textSize="20sp"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:text="@string/linkText"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:autoLink="web"
+            android:id="@+id/url"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:paddingBottom="20dp"
+            android:text=""
+            app:layout_constraintTop_toBottomOf="@id/urlInfo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>

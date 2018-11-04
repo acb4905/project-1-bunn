@@ -6,12 +6,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-
+import android.widget.TextView;
 
 
 /**
@@ -30,7 +33,6 @@ public class MainBuildingListFragment extends ListFragment {
             String[] buildings = new String []{getString(R.string.cis), getString(R.string.rl), getString(R.string.dl), getString(R.string.br), getString(R.string.wa)};
             ArrayAdapter<String> adapter =new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_activated_1,buildings);
             setListAdapter(adapter);
-            //container.setBackgroundColor(Color.parseColor("#7FFFFFFF"));
             return super.onCreateView(inflater, container, savedInstanceState);
         }
 

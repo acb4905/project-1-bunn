@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/menu"
+        android:icon="@drawable/menu_hamburger"
+        android:title="@string/aboutMenu"
+        android:orderInCategory="2"
+        android:background="@color/colorPrimaryDark"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/up"
+        android:icon="@drawable/menu_up"
+        android:title="@string/up"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"/>
+
+</menu>

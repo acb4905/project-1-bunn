@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Seahawk Tours</string>
     <string name="title">Seahawk Tours</string>
+    <string name="buildingImage">UNCW Building</string>
     <string name="instructions">Pick a UNCW building to learn more about it</string>
     <string-array name="buildings">
         <item>Computer Information Systems (CIS)</item>
@@ -38,6 +39,9 @@
     <string name="uncwArchiveURL">https://library.uncw.edu/web/collections/archives/landmarks.html</string>
 
     <string name="aboutMenu">About</string>
+
+    <string name="up">up</string>
+    <string name="menu">menu</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

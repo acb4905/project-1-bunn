@@ -86,12 +86,6 @@
 
         </FrameLayout>
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/detailFragment"
-            android:name="edu.uncw.seahawktours.DetailFragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -31,6 +31,10 @@ public class DetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_detail);
         Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        DetailFragment frag = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
+        int buildingId=getIntent().getIntExtra(DetailActivity.EXTRA_BUILDINGID, 0);
+        frag.setBuildingId(buildingId);
+
     }
 
     //Creates menu on toolbar

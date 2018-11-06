@@ -1,7 +1,6 @@
 package edu.uncw.seahawktours;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -18,7 +17,7 @@ import android.widget.TextView;
  */
 public class DetailFragment extends Fragment {
 
-    private long buildingId;
+    private int buildingId;
 
 
     public DetailFragment() {
@@ -29,7 +28,7 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
-            buildingId=savedInstanceState.getLong("buildingId");
+            buildingId=savedInstanceState.getInt("buildingId");
         }
     }
 
@@ -44,10 +43,10 @@ public class DetailFragment extends Fragment {
 
     public void onStart(){
         super.onStart();
+
         View view = getView();
         if (view != null){
-            int id=getActivity().getIntent().getIntExtra(DetailActivity.EXTRA_BUILDINGID, 0);
-            setBuilding(id);
+            drawBuilding(buildingId);
         }
     }
 
@@ -56,8 +55,11 @@ public class DetailFragment extends Fragment {
         savedInstanceState.putLong("buildingId", buildingId);
     }
 
+    public void setBuildingId(int id) {
+        buildingId = id;
+    }
 
-    public void setBuilding(int id){
+    private void drawBuilding(int id){
         View view =getView();
         Building building0=new Building(getString(R.string.cis), getContext().getResources().getIdentifier("cis","drawable",getActivity().getPackageName()), getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL));
         Building building1 = new Building(getString(R.string.rl), getContext().getResources().getIdentifier("randall","drawable",getActivity().getPackageName()),getString(R.string.rlCaption), getString(R.string.rl_desc), getString(R.string.rlURL));
@@ -87,5 +89,4 @@ public class DetailFragment extends Fragment {
 
 
 }
-
 

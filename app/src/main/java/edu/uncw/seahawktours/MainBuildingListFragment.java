@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -20,7 +22,7 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainBuildingListFragment extends ListFragment {
+public class MainBuildingListFragment extends Fragment {
 
         static interface Listener{
             void itemClicked(long id);
@@ -30,10 +32,16 @@ public class MainBuildingListFragment extends ListFragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-            String[] buildings = new String []{getString(R.string.cis), getString(R.string.rl), getString(R.string.dl), getString(R.string.br), getString(R.string.wa)};
-            ArrayAdapter<String> adapter =new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_activated_1,buildings);
-            setListAdapter(adapter);
-            return super.onCreateView(inflater, container, savedInstanceState);
+            RecyclerView mainRecycler=(RecyclerView) inflater.inflate(R.layout.fragment_main,container,false);
+            String[] buildingNames = new String []{getString(R.string.cis), getString(R.string.rl), getString(R.string.dl), getString(R.string.br), getString(R.string.wa)};
+            int[] buildingImages = new int[]{getResources().getIdentifier("cis", "drawable", "edu.uncw.seahawktours"),getResources().getIdentifier("randall", "drawable", "edu.uncw.seahawktours")
+                    ,getResources().getIdentifier("deloach_collage", "drawable", "edu.uncw.seahawktours"),getResources().getIdentifier("bear_hall", "drawable", "edu.uncw.seahawktours"),
+                    getResources().getIdentifier("wag", "drawable", "edu.uncw.seahawktours")};
+            CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(buildingNames, buildingImages);
+            mainRecycler.setAdapter(adapter);
+            GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),2);
+            mainRecycler.setLayoutManager(layoutManager);
+            return mainRecycler;
         }
 
         @Override
@@ -42,11 +50,5 @@ public class MainBuildingListFragment extends ListFragment {
             this.listener=(Listener) context;
         }
 
-        @Override
-        public void onListItemClick(ListView listView, View itemView, int position, long id){
-            if (listener != null){
-                listener.itemClicked(id);
-            }
-        }
     }
 

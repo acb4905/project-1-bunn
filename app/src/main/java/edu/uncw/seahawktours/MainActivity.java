@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements MainBuildingListF
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            //action to take when the action create order button is tapped
+            //action to take when the options button is tapped
             case R.id.menu:
                 Intent intent = new Intent (this, AboutActivity.class);
                 startActivity(intent);

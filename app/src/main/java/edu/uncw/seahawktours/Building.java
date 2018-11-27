@@ -1,10 +1,27 @@
 package edu.uncw.seahawktours;
 
-import android.content.Context;
-import java.util.ArrayList;
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Index;
+import io.objectbox.annotation.IndexType;
+import io.objectbox.annotation.NameInDb;
 
+@Entity
 public class Building {
+
+    @Index(type = IndexType.VALUE)
     private String name;
+    @Id
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     private int imageResourceId;
     private String caption;
     private String description;
@@ -53,13 +70,15 @@ public class Building {
         }
     }
 
-    protected Building(String name, int imageResourceId,String caption, String description, String url ){
+    public Building(String name, int imageResourceId,String caption, String description, String url ){
         this.name=name;
         this.imageResourceId=imageResourceId;
         this.caption=caption;
         this.description=description;
         this.url=url;
     }
+
+
 
 
     public String getName(){return name;}

@@ -34,9 +34,9 @@ public class MainBuildingListFragment extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             RecyclerView mainRecycler=(RecyclerView) inflater.inflate(R.layout.fragment_main,container,false);
             String[] buildingNames = new String []{getString(R.string.cis), getString(R.string.rl), getString(R.string.dl), getString(R.string.br), getString(R.string.wa)};
-            int[] buildingImages = new int[]{getResources().getIdentifier("cis", "drawable", "edu.uncw.seahawktours"),getResources().getIdentifier("randall", "drawable", "edu.uncw.seahawktours")
-                    ,getResources().getIdentifier("deloach_collage", "drawable", "edu.uncw.seahawktours"),getResources().getIdentifier("bear_hall", "drawable", "edu.uncw.seahawktours"),
-                    getResources().getIdentifier("wag", "drawable", "edu.uncw.seahawktours")};
+            int[] buildingImages = new int[]{getResources().getIdentifier("cis", "drawable", getActivity().getPackageName()),getResources().getIdentifier("randall", "drawable", getActivity().getPackageName())
+                    ,getResources().getIdentifier("deloach_collage", "drawable", getActivity().getPackageName()),getResources().getIdentifier("bear_hall", "drawable", getActivity().getPackageName()),
+                    getResources().getIdentifier("wag", "drawable", getActivity().getPackageName())};
             CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(buildingNames, buildingImages);
             mainRecycler.setAdapter(adapter);
             GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),2);

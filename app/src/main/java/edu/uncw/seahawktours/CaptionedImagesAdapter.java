@@ -1,18 +1,23 @@
 package edu.uncw.seahawktours;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import io.objectbox.Box;
 
 public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder>{
 
     private String[] captions;
     private int[] imageIds;
+    private Box<Building> buildingBox;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         //Define the view to be used for each data item
@@ -29,6 +34,10 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         this.imageIds=imageIds;
     }
 
+    public CaptionedImagesAdapter(Box<Building> buildingBox){
+        this. buildingBox=buildingBox;
+    }
+
     @Override
     public int getItemCount(){
         return captions.length;
@@ -41,8 +50,8 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position){
-        CardView cardView=holder.cardView;
+    public void onBindViewHolder(ViewHolder holder, final int position){
+        final CardView cardView=holder.cardView;
         ImageView imageView=(ImageView)cardView.findViewById(R.id.info_image);
         Drawable drawable=
                 ContextCompat.getDrawable(cardView.getContext(),imageIds[position]);
@@ -50,7 +59,16 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         imageView.setContentDescription(captions[position]);
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
         textView.setText(captions[position]);
+        cardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(cardView.getContext(), DetailActivity.class);
+                intent.putExtra(DetailActivity.EXTRA_BUILDINGID, position);
+                cardView.getContext().startActivity(intent);
+            }
+        });
     }
+
 }
 
 //Page 547

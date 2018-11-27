@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -31,6 +32,8 @@ public class DetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_detail);
         Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         DetailFragment frag = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.detailFragment);
         int buildingId=getIntent().getIntExtra(DetailActivity.EXTRA_BUILDINGID, 0);
         frag.setBuildingId(buildingId);

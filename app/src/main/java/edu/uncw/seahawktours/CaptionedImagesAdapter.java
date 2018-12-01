@@ -48,7 +48,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position){
+    public void onBindViewHolder( ViewHolder holder, final int position){
         final CardView cardView=holder.cardView;
         ImageView imageView=(ImageView)cardView.findViewById(R.id.info_image);
 
@@ -57,9 +57,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
         //use database
         Drawable drawable =(Drawable) ContextCompat.getDrawable(cardView.getContext(), buildingClicked.getImageResourceId());
-
-        //ContextCompat.getDrawable(cardView.getContext(),
-
+        //Drawable drawable =ContextCompat.getIdentifier(buildingClicked.getImageResourceId(), "drawable", this.getPackageName());
         imageView.setImageDrawable(drawable);
 
         imageView.setContentDescription(buildingClicked.getName());

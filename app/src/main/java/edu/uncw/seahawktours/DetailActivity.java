@@ -54,14 +54,18 @@ public class DetailActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             //action to take when the action create order button is tapped
+            case R.id.map:
+                Intent intent1 = new Intent (this, MapActivity.class);
+                startActivity(intent1);
+                return true;
             case R.id.menu:
                 Intent intent = new Intent (this, AboutActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.up:
+/*            case R.id.up:
                 Intent intentUp = new Intent (DetailActivity.this, MainActivity.class);
                 startActivity(intentUp);
-                return true;
+                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

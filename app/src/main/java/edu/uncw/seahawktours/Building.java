@@ -28,6 +28,7 @@ public class Building {
     private String url;
 
 
+
     public void loadBuilding(Building building0, Building building1, Building building2, Building building3, Building building4,int id){
         if (id==0){
             this.setName(building0.getName());
@@ -76,6 +77,10 @@ public class Building {
         this.caption=caption;
         this.description=description;
         this.url=url;
+    }
+
+    public Building(){
+
     }
 
 

@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import io.objectbox.Box;
 
 public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder>{
@@ -29,10 +31,6 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         }
     }
 
-    public CaptionedImagesAdapter(String[] captions, int[] imageIds){
-        this.captions=captions;
-        this.imageIds=imageIds;
-    }
 
     public CaptionedImagesAdapter(Box<Building> buildingBox){
         this. buildingBox=buildingBox;
@@ -40,7 +38,7 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
 
     @Override
     public int getItemCount(){
-        return captions.length;
+        return (int) buildingBox.count();
     }
 
     @Override
@@ -53,12 +51,22 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
     public void onBindViewHolder(ViewHolder holder, final int position){
         final CardView cardView=holder.cardView;
         ImageView imageView=(ImageView)cardView.findViewById(R.id.info_image);
-        Drawable drawable=
-                ContextCompat.getDrawable(cardView.getContext(),imageIds[position]);
+
+        List<Building> buildings=buildingBox.getAll();
+        Building buildingClicked=buildings.get(position);
+
+        //use database
+        Drawable drawable =(Drawable) ContextCompat.getDrawable(cardView.getContext(), buildingClicked.getImageResourceId());
+
+        //ContextCompat.getDrawable(cardView.getContext(),
+
         imageView.setImageDrawable(drawable);
-        imageView.setContentDescription(captions[position]);
+
+        imageView.setContentDescription(buildingClicked.getName());
         TextView textView = (TextView) cardView.findViewById(R.id.info_text);
-        textView.setText(captions[position]);
+
+        //use database
+        textView.setText(buildingClicked.getName());
         cardView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

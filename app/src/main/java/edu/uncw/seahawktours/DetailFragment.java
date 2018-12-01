@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
+import io.objectbox.Box;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +50,8 @@ public class DetailFragment extends Fragment {
 
         View view = getView();
         if (view != null){
-            drawBuilding(buildingId);
+            Box<Building> buildingBox=((App) getActivity().getApplication()).getBoxStore().boxFor(Building.class);
+            drawBuilding(buildingId, buildingBox);
         }
     }
 
@@ -59,16 +64,19 @@ public class DetailFragment extends Fragment {
         buildingId = id;
     }
 
-    private void drawBuilding(int id){
+    private void drawBuilding(int id, Box<Building> buildingBox){
+        //get reference to building box and use ID, get methods from captioned images adapter.
         View view =getView();
-        Building building0=new Building(getString(R.string.cis), getContext().getResources().getIdentifier("cis","drawable",getActivity().getPackageName()), getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL));
+        List<Building> buildings=buildingBox.getAll();
+        Building building=buildings.get(id);
+/*        Building building0=new Building(getString(R.string.cis), getContext().getResources().getIdentifier("cis","drawable",getActivity().getPackageName()), getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL));
         Building building1 = new Building(getString(R.string.rl), getContext().getResources().getIdentifier("randall","drawable",getActivity().getPackageName()),getString(R.string.rlCaption), getString(R.string.rl_desc), getString(R.string.rlURL));
         Building building2 = new Building(getString(R.string.dl), getContext().getResources().getIdentifier("deloach_collage","drawable",getActivity().getPackageName()), getString(R.string.dlCaption),getString(R.string.dl_desc), getString(R.string.dlURL));
         Building building3 = new Building (getString(R.string.br), getContext().getResources().getIdentifier("bear_hall","drawable",getActivity().getPackageName()), getString(R.string.brCaption), getString(R.string.br_desc), getString(R.string.brURL));
         Building building4 = new Building (getString(R.string.wa), getContext().getResources().getIdentifier("wag","drawable",getActivity().getPackageName()), getString(R.string.waCaption), getString(R.string.wa_desc),getString(R.string.waURL));
 
         Building building = new Building("",1,"","","");
-        building.loadBuilding(building0,building1,building2,building3,building4, id);
+        building.loadBuilding(building0,building1,building2,building3,building4, id);*/
 
         TextView title=view.findViewById(R.id.detailTitle);
         title.setText(building.getName());

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+
 public class MainActivity extends AppCompatActivity implements MainBuildingListFragment.Listener {
 
 
@@ -54,9 +55,13 @@ public class MainActivity extends AppCompatActivity implements MainBuildingListF
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             //action to take when the options button is tapped
+            case R.id.map:
+                Intent intent1 = new Intent (this, MapActivity.class);
+                startActivity(intent1);
+                return true;
             case R.id.menu:
-                Intent intent = new Intent (this, AboutActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent (this, AboutActivity.class);
+                startActivity(intent2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

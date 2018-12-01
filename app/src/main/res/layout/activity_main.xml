@@ -11,7 +11,7 @@
     <include
         layout="@layout/toolbar_main"
         android:id="@+id/toolbar">
-        </include>
+    </include>
 
     <TextView
         android:id="@+id/title"
@@ -51,7 +51,21 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
-    <android.support.v7.widget.CardView
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/list"
+        android:name="edu.uncw.seahawktours.MainBuildingListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="373dp"
+        android:background="#7FFFFFFF"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instructions"
+        tools:background="#7FFFFFFF"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
+
+<!--    <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
@@ -87,24 +101,11 @@
                 android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>-->
 
 
 </android.support.constraint.ConstraintLayout>
 
-<!--
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/list"
-        android:name="edu.uncw.seahawktours.MainBuildingListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="373dp"
-        android:background="#7FFFFFFF"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/instructions"
-        tools:background="#7FFFFFFF"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />-->
+
 
 

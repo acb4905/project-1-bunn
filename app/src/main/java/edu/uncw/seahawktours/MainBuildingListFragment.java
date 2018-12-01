@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import io.objectbox.Box;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,11 +35,16 @@ public class MainBuildingListFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             RecyclerView mainRecycler=(RecyclerView) inflater.inflate(R.layout.fragment_main,container,false);
+/*
             String[] buildingNames = new String []{getString(R.string.cis), getString(R.string.rl), getString(R.string.dl), getString(R.string.br), getString(R.string.wa)};
             int[] buildingImages = new int[]{getResources().getIdentifier("cis", "drawable", getActivity().getPackageName()),getResources().getIdentifier("randall", "drawable", getActivity().getPackageName())
                     ,getResources().getIdentifier("deloach_collage", "drawable", getActivity().getPackageName()),getResources().getIdentifier("bear_hall", "drawable", getActivity().getPackageName()),
                     getResources().getIdentifier("wag", "drawable", getActivity().getPackageName())};
-            CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(buildingNames, buildingImages);
+*/
+
+            Box<Building> buildingBox=((App) getActivity().getApplication()).getBoxStore().boxFor(Building.class);
+            CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(buildingBox);
+            //CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(buildingNames, buildingImages);
             mainRecycler.setAdapter(adapter);
             GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),2);
             mainRecycler.setLayoutManager(layoutManager);

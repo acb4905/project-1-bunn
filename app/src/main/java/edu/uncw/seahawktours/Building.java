@@ -22,7 +22,7 @@ public class Building {
         this.id = id;
     }
 
-    private int imageResourceId;
+    private String imageResource;
     private String caption;
     private String description;
     private String url;
@@ -32,7 +32,7 @@ public class Building {
     public void loadBuilding(Building building0, Building building1, Building building2, Building building3, Building building4,int id){
         if (id==0){
             this.setName(building0.getName());
-            this.setImageResource(building0.getImageResourceId());
+            this.setImageResource(building0.getImageResource());
             this.setCaption(building0.getCaption());
             this.setDescription(building0.getDescription());
             this.setUrl(building0.getUrl());
@@ -40,7 +40,7 @@ public class Building {
 
         if (id==1){
             this.setName(building1.getName());
-            this.setImageResource(building1.getImageResourceId());
+            this.setImageResource(building1.getImageResource());
             this.setCaption(building1.getCaption());
             this.setDescription(building1.getDescription());
             this.setUrl(building1.getUrl());
@@ -48,7 +48,7 @@ public class Building {
 
         if (id == 2){
             this.setName(building2.getName());
-            this.setImageResource(building2.getImageResourceId());
+            this.setImageResource(building2.getImageResource());
             this.setCaption(building2.getCaption());
             this.setDescription(building2.getDescription());
             this.setUrl(building2.getUrl());
@@ -56,7 +56,7 @@ public class Building {
 
         if (id == 3){
             this.setName(building3.getName());
-            this.setImageResource(building3.getImageResourceId());
+            this.setImageResource(building3.getImageResource());
             this.setCaption(building3.getCaption());
             this.setDescription(building3.getDescription());
             this.setUrl(building3.getUrl());
@@ -64,16 +64,16 @@ public class Building {
 
         if (id==4){
             this.setName(building4.getName());
-            this.setImageResource(building4.getImageResourceId());
+            this.setImageResource(building4.getImageResource());
             this.setCaption(building4.getCaption());
             this.setDescription(building4.getDescription());
             this.setUrl(building4.getUrl());
         }
     }
 
-    public Building(String name, int imageResourceId,String caption, String description, String url ){
+    public Building(String name, String imageResourceId,String caption, String description, String url ){
         this.name=name;
-        this.imageResourceId=imageResourceId;
+        this.imageResource=imageResourceId;
         this.caption=caption;
         this.description=description;
         this.url=url;
@@ -90,9 +90,9 @@ public class Building {
 
     public void setName(String name){this.name=name;}
 
-    public int getImageResourceId(){return imageResourceId;}
+    public String getImageResource(){return imageResource;}
 
-    public void setImageResource(int id){this.imageResourceId=id;}
+    public void setImageResource(String id){this.imageResource=id;}
 
     public String getCaption(){return caption;}
 

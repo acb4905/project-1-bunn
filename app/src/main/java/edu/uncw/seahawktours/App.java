@@ -26,17 +26,17 @@ public class App extends Application {
         Box<Building> buildingBox = boxStore.boxFor(Building.class);
 
         // Initialize with some data
-        if (buildingBox.count() == 0) {
+        buildingBox.removeAll();
             List<Building> initialBuildings = new ArrayList<>();
-            initialBuildings.add(new Building(getString(R.string.cis), getResources().getIdentifier("cis","drawable","edu.uncw.seahawktours"), getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL)));
-            initialBuildings.add(new Building(getString(R.string.rl), getResources().getIdentifier("randall","drawable","edu.uncw.seahawktours"),getString(R.string.rlCaption), getString(R.string.rl_desc), getString(R.string.rlURL)));
-            initialBuildings.add(new Building(getString(R.string.dl), getResources().getIdentifier("deloach_collage","drawable","edu.uncw.seahawktours"), getString(R.string.dlCaption),getString(R.string.dl_desc), getString(R.string.dlURL)));
-            initialBuildings.add(new Building (getString(R.string.br), getResources().getIdentifier("bear_hall","drawable","edu.uncw.seahawktours"), getString(R.string.brCaption), getString(R.string.br_desc), getString(R.string.brURL)));
-            initialBuildings.add(new Building (getString(R.string.wa), getResources().getIdentifier("wag","drawable","edu.uncw.seahawktours"), getString(R.string.waCaption), getString(R.string.wa_desc),getString(R.string.waURL)));
+            initialBuildings.add(new Building(getString(R.string.cis), "cis", getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL)));
+            initialBuildings.add(new Building(getString(R.string.rl), "randall",getString(R.string.rlCaption), getString(R.string.rl_desc), getString(R.string.rlURL)));
+            initialBuildings.add(new Building(getString(R.string.dl), "deloach", getString(R.string.dlCaption),getString(R.string.dl_desc), getString(R.string.dlURL)));
+            initialBuildings.add(new Building (getString(R.string.br), "bear_hall", getString(R.string.brCaption), getString(R.string.br_desc), getString(R.string.brURL)));
+            initialBuildings.add(new Building (getString(R.string.wa), "wag", getString(R.string.waCaption), getString(R.string.wa_desc),getString(R.string.waURL)));
 
             // ObjectBox is smart enough to handle CRUD on Collections of entities
             buildingBox.put(initialBuildings);
-        }
+
     }
 
     public BoxStore getBoxStore() {

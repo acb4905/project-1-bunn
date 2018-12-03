@@ -56,8 +56,8 @@ public class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImages
         Building buildingClicked=buildings.get(position);
 
         //use database
-        Drawable drawable =(Drawable) ContextCompat.getDrawable(cardView.getContext(), buildingClicked.getImageResourceId());
-        //Drawable drawable =ContextCompat.getIdentifier(buildingClicked.getImageResourceId(), "drawable", this.getPackageName());
+        int drawableId =cardView.getContext().getResources().getIdentifier(buildingClicked.getImageResource(), "drawable", cardView.getContext().getPackageName());
+        Drawable drawable =(Drawable) ContextCompat.getDrawable(cardView.getContext(), drawableId);
         imageView.setImageDrawable(drawable);
 
         imageView.setContentDescription(buildingClicked.getName());

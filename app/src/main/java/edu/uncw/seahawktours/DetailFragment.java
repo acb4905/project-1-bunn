@@ -82,7 +82,7 @@ public class DetailFragment extends Fragment {
         title.setText(building.getName());
 
         ImageView buildingImage=view.findViewById(R.id.buildingImage);
-        buildingImage.setImageResource(building.getImageResourceId());
+        buildingImage.setImageResource(getContext().getResources().getIdentifier(building.getImageResource(), "drawable", getContext().getPackageName()));
 
         TextView caption=view.findViewById(R.id.caption);
         caption.setText(building.getCaption());

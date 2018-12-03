@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class DetailActivity extends AppCompatActivity{
 
     public static final String EXTRA_BUILDINGID = "buildingId";
-    Building chosenBuilding=new Building ("",1,"","","");
+    Building chosenBuilding=new Building ("","","","","");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

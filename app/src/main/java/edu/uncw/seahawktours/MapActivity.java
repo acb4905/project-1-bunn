@@ -10,7 +10,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,11 +32,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.location.GeofencingClient;
 
 import java.util.ArrayList;
 
@@ -44,6 +49,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private PlaceDetectionClient mPlaceDetectionClient;
     private GeoDataClient mGeoDataClient;
+    private GeofencingClient mGeofencingClient;
     private boolean mLocationPermissionGranted=true;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 99;
     public static int DEFAULT_ZOOM=17;
@@ -54,16 +60,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     ArrayList<String> listItems=new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
+    //Markers
+
+    private static final LatLng CIS = new LatLng(34.226115,-77.871845);
+    private static final LatLng RANDALL = new LatLng(34.227527,-77.873863);
+    private static final LatLng DELOACH = new LatLng(34.228770,-77.874409);
+    private static final LatLng BEAR = new LatLng(34.228482,-77.872816);
+    private static final LatLng WAG = new LatLng(34.223247,-77.864902);
+
+    private Marker cis;
+    private Marker randall;
+    private Marker deloach;
+    private Marker bear;
+    private Marker wag;
+
     //get position and use map
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mGeofencingClient = LocationServices.getGeofencingClient(this);
 
         // Construct a GeoDataClient.
        mGeoDataClient = Places.getGeoDataClient(this, null);
@@ -79,6 +104,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 listItems);
         ListView listView= findViewById(R.id.buildingList);
         listView.setAdapter(adapter);
+
+        //Geofences
+
+        mGeofenceList.add(new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId(entry.getKey())
+
+                .setCircularRegion(
+                        entry.getValue().latitude,
+                        entry.getValue().longitude,
+                        Constants.GEOFENCE_RADIUS_IN_METERS
+                )
+                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                .build());
 
     }
 
@@ -194,24 +236,90 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.addMarker(new MarkerOptions().position(mDefaultLocation).title("UNC Wilmington"));
+        mMap.addMarker(new MarkerOptions()
+                .position(mDefaultLocation)
+                .title("UNC Wilmington")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mDefaultLocation , DEFAULT_ZOOM);
         mMap.animateCamera(cameraUpdate);
+
+        cis = mMap.addMarker(new MarkerOptions()
+                .position(CIS)
+                .title("Computer Information Systems Building")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        cis.setTag(0);
+
+        randall = mMap.addMarker(new MarkerOptions()
+                .position(RANDALL)
+                .title("Randall Library")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        randall.setTag(0);
+
+        deloach = mMap.addMarker(new MarkerOptions()
+                .position(DELOACH)
+                .title("Deloach Hall")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        deloach.setTag(0);
+
+        bear = mMap.addMarker(new MarkerOptions()
+                .position(BEAR)
+                .title("Bear Hall")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        bear.setTag(0);
+
+        wag = mMap.addMarker(new MarkerOptions()
+                .position(WAG)
+                .title("Wagoner Hall")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        wag.setTag(0);
     }
 
     public void resetMap(){
-        mMap.addMarker(new MarkerOptions().position(mDefaultLocation).title("UNC Wilmington"));
+        mMap.addMarker(new MarkerOptions()
+                .position(mDefaultLocation)
+                .title("UNC Wilmington")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mDefaultLocation , DEFAULT_ZOOM);
         mMap.animateCamera(cameraUpdate);
+
+        cis = mMap.addMarker(new MarkerOptions()
+                .position(CIS)
+                .title("Computer Information Systems Building")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        cis.setTag(0);
+
+        randall = mMap.addMarker(new MarkerOptions()
+                .position(RANDALL)
+                .title("Randall Library")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        randall.setTag(0);
+
+        deloach = mMap.addMarker(new MarkerOptions()
+                .position(DELOACH)
+                .title("Deloach Hall")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        deloach.setTag(0);
+
+        bear = mMap.addMarker(new MarkerOptions()
+                .position(BEAR)
+                .title("Bear Hall")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        bear.setTag(0);
+
+        wag = mMap.addMarker(new MarkerOptions()
+                .position(WAG)
+                .title("Wagoner Hall")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+        wag.setTag(0);
     }
 
-    public void addItems(View v) {
+/*    public void addItems(View v) {
         //Add close buildings
         listItems.add("Clicked : "+clickCounter++);
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
     //Doesnt make the toolbar
     @Override

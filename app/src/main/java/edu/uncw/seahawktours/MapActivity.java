@@ -1,6 +1,7 @@
 package edu.uncw.seahawktours;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -45,6 +47,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.location.GeofencingClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     //AIzaSyDS3-K5aDxTa6njUOhSaf8ZNJPk3y_ijaM
@@ -77,6 +80,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Marker bear;
     private Marker wag;
 
+    List<Geofence> mGeofenceList = new ArrayList<Geofence>();
+
+    PendingIntent mGeofencePendingIntent;
+
+
+
     //get position and use map
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,22 +117,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ListView listView= findViewById(R.id.buildingList);
         listView.setAdapter(adapter);
 
-        //Geofences
-
-        mGeofenceList.add(new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId(entry.getKey())
-
-                .setCircularRegion(
-                        entry.getValue().latitude,
-                        entry.getValue().longitude,
-                        Constants.GEOFENCE_RADIUS_IN_METERS
-                )
-                .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build());
+        //Add Geofences
+        mGeofenceList.add(new Geofence.Builder().setRequestId("cis").setCircularRegion(CIS.latitude, CIS.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+        mGeofenceList.add(new Geofence.Builder().setRequestId("randall").setCircularRegion(RANDALL.latitude, RANDALL.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+                mGeofenceList.add(new Geofence.Builder().setRequestId("deloach").setCircularRegion(DELOACH.latitude, DELOACH.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+        mGeofenceList.add(new Geofence.Builder().setRequestId("bear").setCircularRegion(BEAR.latitude, BEAR.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+        mGeofenceList.add(new Geofence.Builder().setRequestId("wag").setCircularRegion(WAG.latitude, WAG.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
 
     }
 
@@ -212,6 +211,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch(SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(mGeofenceList);
+        return builder.build();
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have it.
+        if (mGeofencePendingIntent != null) {
+            return mGeofencePendingIntent;
+        }
+        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        mGeofencePendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+        return mGeofencePendingIntent;
     }
 
 

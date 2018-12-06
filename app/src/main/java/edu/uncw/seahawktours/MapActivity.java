@@ -2,7 +2,10 @@ package edu.uncw.seahawktours;
 
 import android.Manifest;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -26,7 +29,13 @@ import android.widget.ListView;
 import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofenceStatusCodes;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -42,12 +51,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.location.GeofencingClient;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.Box;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     //AIzaSyDS3-K5aDxTa6njUOhSaf8ZNJPk3y_ijaM
@@ -58,13 +68,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GeofencingClient mGeofencingClient;
     private boolean mLocationPermissionGranted=true;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 99;
+    private static final int MINIMUM_DWELL_DURATION_IN_SECS = 5;
     public static int DEFAULT_ZOOM=17;
     public static final String TAG = "UNCW";
     private Location mLastKnownLocation;
     private LatLng mDefaultLocation= new LatLng (34.226792, -77.872217);
     private int toggle = 1;
-    ArrayList<String> listItems=new ArrayList<String>();
-    ArrayAdapter<String> adapter;
+    private ArrayList<String> listItems=new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
+    private ListView infoView;
+    private Box<Building> buildingBox;
 
     //Markers
 
@@ -80,8 +93,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Marker bear;
     private Marker wag;
 
-    List<Geofence> mGeofenceList = new ArrayList<Geofence>();
-
     PendingIntent mGeofencePendingIntent;
 
 
@@ -95,6 +106,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        buildingBox = ((App) getApplication()).getBoxStore().boxFor(Building.class);
+        infoView=findViewById(R.id.buildingList);
+        adapter=new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                listItems);
+        infoView.setAdapter(adapter);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -111,18 +129,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        adapter=new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                listItems);
-        ListView listView= findViewById(R.id.buildingList);
-        listView.setAdapter(adapter);
+
 
         //Add Geofences
-        mGeofenceList.add(new Geofence.Builder().setRequestId("cis").setCircularRegion(CIS.latitude, CIS.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+       /* mGeofenceList.add(new Geofence.Builder().setRequestId("cis").setCircularRegion(CIS.latitude, CIS.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
         mGeofenceList.add(new Geofence.Builder().setRequestId("randall").setCircularRegion(RANDALL.latitude, RANDALL.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
                 mGeofenceList.add(new Geofence.Builder().setRequestId("deloach").setCircularRegion(DELOACH.latitude, DELOACH.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
         mGeofenceList.add(new Geofence.Builder().setRequestId("bear").setCircularRegion(BEAR.latitude, BEAR.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
-        mGeofenceList.add(new Geofence.Builder().setRequestId("wag").setCircularRegion(WAG.latitude, WAG.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
+        mGeofenceList.add(new Geofence.Builder().setRequestId("wag").setCircularRegion(WAG.latitude, WAG.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());*/
 
     }
 
@@ -213,25 +227,117 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private GeofencingRequest getGeofencingRequest() {
-        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
-        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-        builder.addGeofences(mGeofenceList);
-        return builder.build();
-    }
+    private static final String GEOFENCE_NOTIFICATION_ACTION = "edu.uncw.seahawktours.MY_GEOFENCE_NOTIFICATION";
+
 
     private PendingIntent getGeofencePendingIntent() {
-        // Reuse the PendingIntent if we already have it.
         if (mGeofencePendingIntent != null) {
             return mGeofencePendingIntent;
         }
-        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
-        // calling addGeofences() and removeGeofences().
-        mGeofencePendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.
+        Intent intent = new Intent();
+        intent.setAction(GEOFENCE_NOTIFICATION_ACTION);
+        mGeofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
                 FLAG_UPDATE_CURRENT);
         return mGeofencePendingIntent;
     }
+
+    private void addGeofences() {
+        final Context context = this;
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        } else {
+            mGeofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                    .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            String msg = "Geofences successfully added";
+                            listItems.add("Building Name of Geofence");
+                            Toast.makeText( context, msg, Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, msg);
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            String msg = "Failed to add Geofences! Please restart the app!";
+                            Toast.makeText( context, msg, Toast.LENGTH_LONG).show();
+                            Log.e(TAG, msg);
+                        }
+                    });
+        }
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        // Creates a list of geofencing objects from the database
+        List<Geofence> geofenceList = new ArrayList<>();
+        for (Building building : buildingBox.getAll()) {
+            Geofence g = new Geofence.Builder()
+                    // Set the request ID of the geofence. This is a string to identify this
+                    // geofence.
+                    .setRequestId(building.getName())
+                    .setCircularRegion(
+                            building.getLat(),
+                            building.getLon(),
+                            building.getRadius()
+                    )
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL |
+                            Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .setLoiteringDelay(MINIMUM_DWELL_DURATION_IN_SECS)
+                    .build();
+            geofenceList.add(g);
+        }
+
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_DWELL);
+        builder.addGeofences(geofenceList);
+        return builder.build();
+    }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(getApplicationContext(), "Geofence update received!", Toast.LENGTH_SHORT).show();
+
+            GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+            Log.d(TAG, geofencingEvent.toString());
+
+            if (geofencingEvent.hasError()) {
+                Log.e(TAG, GeofenceStatusCodes.getStatusCodeString(
+                        geofencingEvent.getErrorCode()));
+                return;
+            }
+
+            listItems.add("You are currently not within .25 miles of a UNCW building");
+            listItems.add("Tap the map button again to return your map to campus");
+            adapter.notifyDataSetChanged();
+
+            // Get the transition type.
+            int geofenceTransition = geofencingEvent.getGeofenceTransition();
+
+            // Test that the reported transition was of interest.
+            if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL ||
+                    geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+
+                // Get the geofences that were triggered. A single event can trigger
+                // multiple geofences.
+                List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
+
+                int runs=0;
+                listItems.clear();
+                for (Geofence geofence : triggeringGeofences){
+                    if(runs==0){
+                        listItems.add("Nearby Buildings");
+                    }
+                    listItems.add(geofence.getRequestId());
+                    adapter.notifyDataSetChanged();
+                    runs+=1;
+                }
+            }
+        }
+    };
 
 
     public void onClickDone(View view) {
@@ -337,11 +443,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         wag.setTag(0);
     }
 
-/*    public void addItems(View v) {
-        //Add close buildings
-        listItems.add("Clicked : "+clickCounter++);
-        adapter.notifyDataSetChanged();
-    }*/
 
     //Doesnt make the toolbar
     @Override
@@ -372,6 +473,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // We should stop listening for Geofence updates if we're not in the app
+        unregisterReceiver(receiver);
+        mGeofencingClient.removeGeofences(getGeofencePendingIntent())
+                .addOnSuccessListener(this, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        String msg = "Geofences successfully removed!";
+                        Log.d(TAG, msg);
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Failed to remove Geofences!");
+                    }
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // We are going to register a custom BroadcastReceiver to listen for Intents that capture
+        // Geofence updates. The custom receiver is located at the bottom of the class.
+        registerReceiver(receiver, new IntentFilter(GEOFENCE_NOTIFICATION_ACTION));
+        addGeofences();
     }
 
 }

@@ -26,6 +26,9 @@ public class Building {
     private String caption;
     private String description;
     private String url;
+    private double lat;
+    private double lon;
+    private float radius;
 
 
 
@@ -71,12 +74,15 @@ public class Building {
         }
     }
 
-    public Building(String name, String imageResourceId,String caption, String description, String url ){
+    public Building(String name, String imageResourceId,String caption, String description, String url, double lat, double lon, float radius ){
         this.name=name;
         this.imageResource=imageResourceId;
         this.caption=caption;
         this.description=description;
         this.url=url;
+        this.lat=lat;
+        this.lon=lon;
+        this.radius=radius;
     }
 
     public Building(){
@@ -105,6 +111,12 @@ public class Building {
     public String getUrl(){return url;}
 
     public void setUrl(String url){this.url=url;}
+
+    public double getLat(){ return this.lat;}
+
+    public double getLon(){return this.lon;}
+
+    public float getRadius(){return this.radius;}
 
 
 }

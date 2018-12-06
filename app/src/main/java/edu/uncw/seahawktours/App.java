@@ -28,11 +28,11 @@ public class App extends Application {
         // Initialize with some data
         buildingBox.removeAll();
             List<Building> initialBuildings = new ArrayList<>();
-            initialBuildings.add(new Building(getString(R.string.cis), "cis", getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL)));
-            initialBuildings.add(new Building(getString(R.string.rl), "randall",getString(R.string.rlCaption), getString(R.string.rl_desc), getString(R.string.rlURL)));
-            initialBuildings.add(new Building(getString(R.string.dl), "deloach", getString(R.string.dlCaption),getString(R.string.dl_desc), getString(R.string.dlURL)));
-            initialBuildings.add(new Building (getString(R.string.br), "bear_hall", getString(R.string.brCaption), getString(R.string.br_desc), getString(R.string.brURL)));
-            initialBuildings.add(new Building (getString(R.string.wa), "wag", getString(R.string.waCaption), getString(R.string.wa_desc),getString(R.string.waURL)));
+            initialBuildings.add(new Building(getString(R.string.cis), "cis", getString(R.string.cisCaption), getString(R.string.cis_desc), getString(R.string.cisURL),34.226115,-77.871845,(float).25));
+            initialBuildings.add(new Building(getString(R.string.rl), "randall",getString(R.string.rlCaption), getString(R.string.rl_desc), getString(R.string.rlURL),34.227527,-77.873863,(float).25));
+            initialBuildings.add(new Building(getString(R.string.dl), "deloach", getString(R.string.dlCaption),getString(R.string.dl_desc), getString(R.string.dlURL),34.228770,-77.874409,(float).25));
+            initialBuildings.add(new Building (getString(R.string.br), "bear_hall", getString(R.string.brCaption), getString(R.string.br_desc), getString(R.string.brURL),34.228482,-77.872816,(float).25));
+            initialBuildings.add(new Building (getString(R.string.wa), "wag", getString(R.string.waCaption), getString(R.string.wa_desc),getString(R.string.waURL),34.223247,-77.864902,(float).25));
 
             // ObjectBox is smart enough to handle CRUD on Collections of entities
             buildingBox.put(initialBuildings);

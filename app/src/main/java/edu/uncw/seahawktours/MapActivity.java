@@ -253,7 +253,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         @Override
                         public void onSuccess(Void aVoid) {
                             String msg = "Geofences successfully added";
-                            listItems.add("Building Name of Geofence");
+                            //listItems.add("Building Name of Geofence");
                             Toast.makeText( context, msg, Toast.LENGTH_SHORT).show();
                             Log.d(TAG, msg);
                         }
@@ -261,7 +261,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .addOnFailureListener(this, new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            String msg = "Failed to add Geofences! Please restart the app!";
+                            Log.e(TAG, e.getMessage());
+                            e.printStackTrace();
+                            String msg = "Failed to add Geofences, please change your location settings to High Accuracy";
                             Toast.makeText( context, msg, Toast.LENGTH_LONG).show();
                             Log.e(TAG, msg);
                         }
@@ -296,6 +298,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return builder.build();
     }
 
+    private double getDistanceFromPoint(double userLat, double userLon, double pointLat, double pointLon){
+        double x = (userLat-pointLat)*(userLat-pointLat);
+        double y = (userLon - pointLon)*(userLon-pointLon);
+        double distanceInLatLon= Math.sqrt(x+y);
+        return (((distanceInLatLon*55.2428)*100)/100);
+    }
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -310,9 +319,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return;
             }
 
-            listItems.add("You are currently not within .25 miles of a UNCW building");
-            listItems.add("Tap the map button again to return your map to campus");
-            adapter.notifyDataSetChanged();
 
             // Get the transition type.
             int geofenceTransition = geofencingEvent.getGeofenceTransition();
@@ -324,17 +330,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Get the geofences that were triggered. A single event can trigger
                 // multiple geofences.
                 List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
-
-                int runs=0;
-                listItems.clear();
-                for (Geofence geofence : triggeringGeofences){
-                    if(runs==0){
-                        listItems.add("Nearby Buildings");
+                if (mLastKnownLocation!=null) {
+                    int runs = 0;
+                    listItems.clear();
+                    for (Geofence geofence : triggeringGeofences) {
+                        if (runs == 0) {
+                            listItems.add("Nearby Buildings");
+                        }
+                        List<Building> geofenceBuilding = buildingBox.query().equal(Building_.name, geofence.getRequestId()).build().find();
+                        listItems.add(geofence.getRequestId() + "    " + getDistanceFromPoint(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude(), geofenceBuilding.get(0).getLat(), geofenceBuilding.get(0).getLon()) + " mi");
+                        adapter.notifyDataSetChanged();
+                        runs += 1;
                     }
-                    listItems.add(geofence.getRequestId());
-                    adapter.notifyDataSetChanged();
-                    runs+=1;
                 }
+            }
+            else{
+                listItems.add("You are currently not within .25 miles of a UNCW building");
+                listItems.add("Tap the map button again to return your map to campus");
+                adapter.notifyDataSetChanged();
             }
         }
     };
@@ -367,7 +380,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions()
                 .position(mDefaultLocation)
                 .title("UNC Wilmington")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mDefaultLocation));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(mDefaultLocation , DEFAULT_ZOOM);
         mMap.animateCamera(cameraUpdate);
@@ -401,6 +414,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .title("Wagoner Hall")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         wag.setTag(0);
+
+        //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener)this);
     }
 
     public void resetMap(){
@@ -441,6 +456,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .title("Wagoner Hall")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         wag.setTag(0);
+
+        //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener)this);
     }
 
 
@@ -466,14 +483,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Intent intent = new Intent (this, AboutActivity.class);
                 startActivity(intent);
                 return true;
-/*            case R.id.up:
-                Intent intentUp = new Intent (DetailActivity.this, MainActivity.class);
-                startActivity(intentUp);
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+/*    public boolean onMarkerClick(final Marker marker) {
+
+        // Retrieve the data from the marker.
+        Integer clickCount = (Integer) marker.getTag();
+        List<Building> geofenceBuilding = buildingBox.query().equal(Building_.name, marker.getTitle()).build().find();
+
+        // Check if a click count was set, then display the click count.
+        if (clickCount != null) {
+            Intent detailIntent = new Intent(this,DetailActivity.class);
+            detailIntent.putExtra(DetailActivity.EXTRA_BUILDINGID,geofenceBuilding.get(0).getId());
+            startActivity(detailIntent);
+        }
+        return false;
+    }*/
 
     @Override
     protected void onPause() {

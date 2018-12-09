@@ -22,7 +22,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
 
@@ -78,6 +80,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayAdapter<String> adapter;
     private ListView infoView;
     private Box<Building> buildingBox;
+    private TextView title;
 
     //Markers
 
@@ -112,6 +115,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 android.R.layout.simple_list_item_1,
                 listItems);
         infoView.setAdapter(adapter);
+        title=findViewById(R.id.title);
+
+        //Create the list listener
+        AdapterView.OnItemClickListener itemClickListener=new AdapterView.OnItemClickListener(){
+            public void onItemClick(AdapterView<?> listDrinks,
+                                    View itemView,
+                                    int position,
+                                    long id) {
+                //pass the drink the user clicks on to the DrinkActivity
+                Intent intent = new Intent(MapActivity.this, DetailActivity.class);
+                List<Building> geofenceBuilding = buildingBox.query().equal(Building_.name, (String)listDrinks.getItemAtPosition((int)id)).build().find();
+                if(!geofenceBuilding.isEmpty()){
+                    intent.putExtra(DetailActivity.EXTRA_BUILDINGID,geofenceBuilding.get(0).getId());
+                    startActivity(intent);
+                }
+            }
+        };
+        //Assign the listener to the list view
+        infoView.setOnItemClickListener(itemClickListener);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -128,15 +150,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Construct a FusedLocationProviderClient.
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-
-
-        //Add Geofences
-       /* mGeofenceList.add(new Geofence.Builder().setRequestId("cis").setCircularRegion(CIS.latitude, CIS.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
-        mGeofenceList.add(new Geofence.Builder().setRequestId("randall").setCircularRegion(RANDALL.latitude, RANDALL.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
-                mGeofenceList.add(new Geofence.Builder().setRequestId("deloach").setCircularRegion(DELOACH.latitude, DELOACH.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
-        mGeofenceList.add(new Geofence.Builder().setRequestId("bear").setCircularRegion(BEAR.latitude, BEAR.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());
-        mGeofenceList.add(new Geofence.Builder().setRequestId("wag").setCircularRegion(WAG.latitude, WAG.longitude, (float)0.25).setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT).build());*/
 
     }
 
@@ -185,7 +198,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                //mLastKnownLocation = null;
+                mLastKnownLocation = null;
                 getLocationPermission();
             }
         } catch (SecurityException e)  {
@@ -302,14 +315,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         double x = (userLat-pointLat)*(userLat-pointLat);
         double y = (userLon - pointLon)*(userLon-pointLon);
         double distanceInLatLon= Math.sqrt(x+y);
-        return (((distanceInLatLon*55.2428)*100)/100);
+        return (((distanceInLatLon*55.2428)*1000000000)/1000000000);
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(getApplicationContext(), "Geofence update received!", Toast.LENGTH_SHORT).show();
-
             GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
             Log.d(TAG, geofencingEvent.toString());
 
@@ -318,7 +330,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         geofencingEvent.getErrorCode()));
                 return;
             }
-
 
             // Get the transition type.
             int geofenceTransition = geofencingEvent.getGeofenceTransition();
@@ -335,16 +346,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     listItems.clear();
                     for (Geofence geofence : triggeringGeofences) {
                         if (runs == 0) {
-                            listItems.add("Nearby Buildings");
+                            title.setText("Nearby Buildings");
+                            title.setTextSize(25);
                         }
                         List<Building> geofenceBuilding = buildingBox.query().equal(Building_.name, geofence.getRequestId()).build().find();
                         listItems.add(geofence.getRequestId() + "    " + getDistanceFromPoint(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude(), geofenceBuilding.get(0).getLat(), geofenceBuilding.get(0).getLon()) + " mi");
                         adapter.notifyDataSetChanged();
                         runs += 1;
                     }
+                    Toast.makeText(getApplicationContext(), "Nearby Buildings Added", Toast.LENGTH_SHORT).show();
                 }
             }
             else{
+                title.setText("Too far from UNCW :(");
                 listItems.add("You are currently not within .25 miles of a UNCW building");
                 listItems.add("Tap the map button again to return your map to campus");
                 adapter.notifyDataSetChanged();
@@ -357,6 +371,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         toggle=toggle+1;
         if (toggle%2==0) {
             getDeviceLocation();
+            getGeofencePendingIntent();
+            title.setText("Too far from UNCW :(");
+            title.setTextSize(25);
+            listItems.add("You are currently not within .25 miles of a UNCW building");
+            listItems.add("Tap the map button again to return your map to campus");
+            adapter.notifyDataSetChanged();
         }
         else{
             resetMap();
@@ -414,8 +434,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .title("Wagoner Hall")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         wag.setTag(0);
-
-        //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener)this);
     }
 
     public void resetMap(){
@@ -456,8 +474,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .title("Wagoner Hall")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
         wag.setTag(0);
-
-        //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener)this);
     }
 
 
@@ -488,20 +504,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-/*    public boolean onMarkerClick(final Marker marker) {
-
-        // Retrieve the data from the marker.
-        Integer clickCount = (Integer) marker.getTag();
-        List<Building> geofenceBuilding = buildingBox.query().equal(Building_.name, marker.getTitle()).build().find();
-
-        // Check if a click count was set, then display the click count.
-        if (clickCount != null) {
-            Intent detailIntent = new Intent(this,DetailActivity.class);
-            detailIntent.putExtra(DetailActivity.EXTRA_BUILDINGID,geofenceBuilding.get(0).getId());
-            startActivity(detailIntent);
-        }
-        return false;
-    }*/
 
     @Override
     protected void onPause() {
@@ -528,11 +530,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-
-        // We are going to register a custom BroadcastReceiver to listen for Intents that capture
-        // Geofence updates. The custom receiver is located at the bottom of the class.
         registerReceiver(receiver, new IntentFilter(GEOFENCE_NOTIFICATION_ACTION));
         addGeofences();
     }
+
+
 
 }

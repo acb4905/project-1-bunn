@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="20dp"
+        android:paddingBottom="10dp"
         android:text="@string/instructions"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="19sp"

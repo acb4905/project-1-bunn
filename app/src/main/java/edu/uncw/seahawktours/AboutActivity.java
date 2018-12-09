@@ -66,10 +66,6 @@ public class AboutActivity extends AppCompatActivity {
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
-/*            case R.id.up:
-                Intent intentUp = new Intent (AboutActivity.this, MainActivity.class);
-                startActivity(intentUp);
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

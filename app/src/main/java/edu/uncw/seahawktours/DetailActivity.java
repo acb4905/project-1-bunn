@@ -61,10 +61,6 @@ public class DetailActivity extends AppCompatActivity{
                 Intent intent = new Intent (this, AboutActivity.class);
                 startActivity(intent);
                 return true;
-/*            case R.id.up:
-                Intent intentUp = new Intent (DetailActivity.this, MainActivity.class);
-                startActivity(intentUp);
-                return true;*/
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -47,4 +47,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_map">Map</string>
 
+    <string name="map_title">Tap the circular teal button to see nearby buildings.</string>
+
 </resources>

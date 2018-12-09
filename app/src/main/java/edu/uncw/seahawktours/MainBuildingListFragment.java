@@ -26,21 +26,16 @@ import io.objectbox.Box;
  */
 public class MainBuildingListFragment extends Fragment {
 
-        static interface Listener{
+        interface Listener{
             void itemClicked(long id);
-        };
+        }
 
-        private Listener listener;
+    private Listener listener;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             RecyclerView mainRecycler=(RecyclerView) inflater.inflate(R.layout.fragment_main,container,false);
-/*
-            String[] buildingNames = new String []{getString(R.string.cis), getString(R.string.rl), getString(R.string.dl), getString(R.string.br), getString(R.string.wa)};
-            int[] buildingImages = new int[]{getResources().getIdentifier("cis", "drawable", getActivity().getPackageName()),getResources().getIdentifier("randall", "drawable", getActivity().getPackageName())
-                    ,getResources().getIdentifier("deloach_collage", "drawable", getActivity().getPackageName()),getResources().getIdentifier("bear_hall", "drawable", getActivity().getPackageName()),
-                    getResources().getIdentifier("wag", "drawable", getActivity().getPackageName())};
-*/
+
 
             Box<Building> buildingBox=((App) getActivity().getApplication()).getBoxStore().boxFor(Building.class);
             CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(buildingBox);

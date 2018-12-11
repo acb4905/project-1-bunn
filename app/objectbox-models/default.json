@@ -1,0 +1,65 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6101041974577272798",
+      "lastPropertyId": "10:8685663944280627527",
+      "name": "Building",
+      "properties": [
+        {
+          "id": "1:6142528192835833177",
+          "indexId": "1:270527962622871787",
+          "name": "name"
+        },
+        {
+          "id": "2:539529849479917725",
+          "name": "id"
+        },
+        {
+          "id": "4:679503993767165816",
+          "name": "caption"
+        },
+        {
+          "id": "5:4534620067560018078",
+          "name": "description"
+        },
+        {
+          "id": "6:588346741653893354",
+          "name": "url"
+        },
+        {
+          "id": "7:452010497493614447",
+          "name": "imageResource"
+        },
+        {
+          "id": "8:620689255697077468",
+          "name": "lat"
+        },
+        {
+          "id": "9:2430552573078199160",
+          "name": "lon"
+        },
+        {
+          "id": "10:8685663944280627527",
+          "name": "radius"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:6101041974577272798",
+  "lastIndexId": "1:270527962622871787",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 4,
+  "modelVersionParserMinimum": 4,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    2702622685393145166
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
